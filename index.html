@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    input {
+      font-size: 16px;
+      padding: 5px;
+      margin: 10px;
+    }
+    button {
+      font-size: 14px;
+      padding: 8px 12px;
+      background-color: #87ceeb;
+      border: none;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    #attempts {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    #playAgain {
+      display: none;
+      margin-top: 15px;
+      background-color: #90ee90;
+    }
+  </style>
+</head>
+<body>
+  <h1>💡 Guess the Number 💡</h1>
+  <p>I have chosen a number between 1 and 100.</p>
+<input type="number" id="guessInput" placeholder="Enter your guess">
+  <br>
+  <button onclick="checkGuess()">Submit Guess</button>
+<p id="attempts">Attempts: 0</p>
+  <p id="result"></p>
+  <button id="playAgain" onclick="resetGame()">Play Again</button>
+<script>
+    let number = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      attempts++;
+      const guess = parseInt(document.getElementById("guessInput").value);
+      const result = document.getElementById("result");
+      const attemptsLabel = document.getElementById("attempts");
+
+      if (isNaN(guess)) {
+        result.textContent = "⚠️ Please enter a valid number!";
+        result.style.color = "orange";
+      } else if (guess === number) {
+        result.textContent = `🎉 Correct!Congratulations You guessed in ${attempts} tries.`;
+        result.style.color = "green";
+        document.getElementById("playAgain").style.display = "inline-block";
+      } else if (guess < number) {
+        result.textContent = "📉 Too low! Try again.";
+        result.style.color = "blue";
+      } else {
+        result.textContent = "📈 Too high! Try again.";
+        result.style.color = "red";
+      }
+
+      attemptsLabel.textContent = `Attempts: ${attempts}`;
+    }
+
+    function resetGame() {
+      number = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("attempts").textContent = "Attempts: 0";
+      document.getElementById("guessInput").value = "";
+      document.getElementById("playAgain").style.display = "none";
+    }
+
+    // Allow pressing Enter to submit
+    document.getElementById("guessInput").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        checkGuess();
+      }
+    });
+</body>
+</html>
